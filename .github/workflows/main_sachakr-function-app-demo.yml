@@ -71,7 +71,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8A2FF8E102064DA4895DBB4543C12426 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2AA68FDBBF5C4B1EB72E9DA88F46F914 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_79F92B62BE9A404C8285E2320E120130 }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET_12345 }}
+          federated-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Deploy to Azure Functions"
         uses: Azure/functions-action@v1
