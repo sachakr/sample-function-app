@@ -1,1 +1,1 @@
-# sample-function-app
+# function-app-demo
