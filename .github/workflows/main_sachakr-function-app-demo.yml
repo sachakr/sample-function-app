@@ -66,12 +66,23 @@ jobs:
         run: Expand-Archive release.zip
 
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8A2FF8E102064DA4895DBB4543C12426 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2AA68FDBBF5C4B1EB72E9DA88F46F914 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_79F92B62BE9A404C8285E2320E120130 }}
-          federated-token: ${{ secrets.GITHUB_TOKEN }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get secrets from Azure Key Vault
+        uses: azure/keyvault-secrets@v1
+        with:
+          keyvault: sachakr-key-vault
+          secrets: "AZURE-CLIENT-ID,AZURE-TENANT-ID,AZURE-SUBSCRIPTION-ID"
+
+      - name: Deploy to Azure Function App
+        env:
+          AZURE_CLIENT_ID: ${{ env.AZURE-CLIENT-ID }}
+          AZURE_TENANT_ID: ${{ env.AZURE-TENANT-ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ env.AZURE-SUBSCRIPTION-ID }}
+        run: |
+          echo "Deploying to Azure with Client ID: $AZURE_CLIENT_ID"
 
       - name: "Deploy to Azure Functions"
         uses: Azure/functions-action@v1
