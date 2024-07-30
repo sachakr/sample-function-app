@@ -70,21 +70,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Retrieve secrets from Azure Key Vault
-        id: get-secrets
-        run: |
-          echo "Retrieving secrets from Key Vault"
-          CLIENT_ID=$(az keyvault secret show --name "AZURE-CLIENT-ID" --vault-name "sachakr-key-vault" --query "value" -o tsv)
-          TENANT_ID=$(az keyvault secret show --name "AZURE-TENANT-ID" --vault-name "sachakr-key-vault" --query "value" -o tsv)
-          SUBSCRIPTION_ID=$(az keyvault secret show --name "AZURE-SUBSCRIPTION-ID" --vault-name "sachakr-key-vault" --query "value" -o tsv)
-          echo "AZURE_CLIENT_ID=$CLIENT_ID" >> $GITHUB_ENV
-          echo "AZURE_TENANT_ID=$TENANT_ID" >> $GITHUB_ENV
-          echo "AZURE_SUBSCRIPTION_ID=$SUBSCRIPTION_ID" >> $GITHUB_ENV
-
-      - name: Deploy to Azure Function App
-        run: |
-          echo "Deploying to Azure with Client ID: ${{ env.AZURE_CLIENT_ID }}"
-
       - name: "Deploy to Azure Functions"
         uses: Azure/functions-action@v1
         id: deploy-to-function
